@@ -11,7 +11,7 @@ import GameContext from "./contexts/gameContext";
 import useSnakeBrain from "./snakeBrain/useSnakeBrain";
 import useLocalStorage from "../hooks/useLocalStorage";
 import gameSettingsContext, {MAP_SIZE_INFO} from "./contexts/gameSettingsContext";
-import {startingDirection, startingFoodVector, startingSnakeArray} from "./variables/gameStartData";
+import {startingDirectionVector, startingFoodVector, startingSnakeArray} from "./variables/gameStartData";
 
 
 GameToolbar.propTypes = {
@@ -91,7 +91,7 @@ const Snake = () => {
 
         setTimeout(() => {
             setSnakeArray(startingSnakeArray);
-            setDirection(startingDirection);
+            setDirection(startingDirectionVector);
             setSnakeMovesStack([]);
             setFoodPosition(startingFoodVector);
             generateNewFood();

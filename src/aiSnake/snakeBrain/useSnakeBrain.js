@@ -1,7 +1,7 @@
 import _1 from "./versions/_1";
 import {useEffect, useState} from "react";
 import useDebounce from "../../hooks/useDebounce";
-import _2 from "./versions/_2";
+import  _2 from "./versions/_2";
 /**
  *
  * @param {'up'|'down'|'right'|'left'} key
@@ -26,6 +26,7 @@ const useSnakeBrain = ({
                            setSnakeMovesStack,
                            snakeArray,
                            foodPosition,
+                           isGameOn,
                        }) => {
     const [isSnakeBrainOn, setIsSnakeBrainOn] = useState(false);
     /*
@@ -33,18 +34,18 @@ const useSnakeBrain = ({
     */
     const debouncedTime = useDebounce(time, 1);
     useEffect(() => {
-        if (!isSnakeBrainOn) {
+        if (!isSnakeBrainOn || !isGameOn) {
             return;
         }
-        // _2({
-        //     snakeMovesStack, direction, setSnakeMovesStack, snakeArray, foodPosition,
-        //     isSnakeBrainOn, setIsSnakeBrainOn,
-        // })
-        _1({
+        _2({
             snakeMovesStack, direction, setSnakeMovesStack, snakeArray, foodPosition,
-            isSnakeBrainOn, setIsSnakeBrainOn
+            isSnakeBrainOn, setIsSnakeBrainOn,
         })
-    }, [debouncedTime])
+        // _1({
+        //     snakeMovesStack, direction, setSnakeMovesStack, snakeArray, foodPosition,
+        //     isSnakeBrainOn, setIsSnakeBrainOn
+        // })
+    }, [debouncedTime, isGameOn])
     return {isSnakeBrainOn, setIsSnakeBrainOn};
 }
 

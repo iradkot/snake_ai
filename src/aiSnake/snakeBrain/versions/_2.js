@@ -60,14 +60,19 @@ const _2 = ({
         removeDirectionByKey(directionVectorToDirectionKey(directionToNeck))
 
     // 2. Then We check the rest of the available directions if they will lead to collision
-    Object.values(availableNextDirections).forEach(directionObject => {
+    const availableNextDirectionsValues = Object.values(availableNextDirections);
+    availableNextDirectionsValues.forEach(directionObject => {
         const nextHeadPosition = getNextHeadPosition(snakeArray, directionObject)
         // Here we remove the tail since next turn it will move (slice(0,-1))
-        const isDirectionCollide = getCollidingVectorInVectorArray(snakeArray.slice(0, -1), nextHeadPosition);
-        if (isDirectionCollide) {
-            removeDirectionByKey(directionVectorToDirectionKey(nextDirectionVector))
+        const collidingVector = getCollidingVectorInVectorArray(snakeArray.slice(0, -1), nextHeadPosition);
+        if (collidingVector) {
+            removeDirectionByKey(directionObject.key)
         }
     })
+
+    // 3. Then we check what is shortest direction to the food
+
+
     if (!isEmpty(availableNextDirections)) {
         const newNextDirectionVector = getSortedDirectionByPriority(availableNextDirections)[0];
         if (!isEqual(nextDirectionVector, {x: newNextDirectionVector.x, y: newNextDirectionVector.y})) {

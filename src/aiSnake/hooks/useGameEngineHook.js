@@ -22,6 +22,7 @@ const useGameEngineHook = () => {
 
 
     const startGame = useCallback(() => {
+        console.log('///////');
         setIsGameOn(GAME_STATUSES.GAME_ON);
     }, []);
     const stopGame = useCallback(() => {

@@ -2,7 +2,7 @@ import React, {createContext, useCallback, useState} from "react";
 import {INITIAL_SNAKE_SPEED} from "../variables/gameStartData";
 
 export const PIXEL_SIZE = 40;
-export const PIXELS_IN_ROW = 30;
+export const PIXELS_IN_ROW = 10;
 export const MAP_WIDTH = PIXEL_SIZE * PIXELS_IN_ROW;
 // noinspection JSSuspiciousNameCombination
 export const MAP_HEIGHT = MAP_WIDTH;

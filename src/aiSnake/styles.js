@@ -11,15 +11,17 @@ const ToolbarContainer = styled.div`
   padding: 5px;
   background: linear-gradient(#ff9300, thistle);
   font-weight: bold;
+  cursor: pointer;
   ${({isGameOn}) =>
     !isGameOn &&
     css`
-            :hover {
-              cursor: pointer;
-              opacity: 0.8;
-            }
-          `};
+      background: linear-gradient(#ff9300, thistle);
+      :hover {
+        opacity: 0.8;
+      }
+  `};
 `;
-export const GameToolbar = ({title, gameStatus, gameData, startGameCb}) =>
-    <ToolbarContainer gameStatus={gameStatus}
-                      onClick={startGameCb}>{gameStatus.GAME_ON ? gameData : title}</ToolbarContainer>;
+export const GameToolbar = ({title, gameStatus, gameData, startGameCb}) => {
+  return <ToolbarContainer gameStatus={gameStatus}
+                           onClick={startGameCb}>{gameStatus.GAME_ON ? gameData : title}</ToolbarContainer>;
+};
