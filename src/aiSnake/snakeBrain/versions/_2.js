@@ -122,27 +122,6 @@ const _2 = ({
         directionObject.priority -= (collides * 1.75);
     });
 
-    // 6. Reduce priority of all directions that are closer to part of the snake after three steps
-    Object.values(availableNextDirections).forEach(directionObject => {
-        const nextHeadPosition = getNextHeadPosition(snakeArray, directionObject)
-        let collides = 0
-        Object.values(DIRECTIONS_VECTORS_MAP).forEach(directionVectorObject => {
-            const secondNextHeadPosition = getNextHeadPosition([nextHeadPosition, snakeArray], directionVectorObject)
-            Object.values(DIRECTIONS_VECTORS_MAP).forEach(directionVectorObject => {
-                const thirdNextHeadPosition = getNextHeadPosition([nextHeadPosition, secondNextHeadPosition, snakeArray], directionVectorObject)
-                Object.values(DIRECTIONS_VECTORS_MAP).forEach(directionVectorObject => {
-                    const fourthNextHeadPosition = getNextHeadPosition([nextHeadPosition, secondNextHeadPosition, thirdNextHeadPosition, snakeArray], directionVectorObject)
-                    // Count amount of directions that lead to collision
-                    const collidingVector = getCollidingVectorInVectorArray([nextHeadPosition, secondNextHeadPosition, thirdNextHeadPosition, snakeArray], fourthNextHeadPosition);
-                    if (collidingVector) {
-                        collides++;
-                    }
-                })
-            })
-        })
-        console.log('6', collides)
-        directionObject.priority -= (collides * 1.5);
-    });
 
     if (!isEmpty(availableNextDirections)) {
         const newNextDirectionVector = getSortedDirectionByPriority(availableNextDirections)[0];

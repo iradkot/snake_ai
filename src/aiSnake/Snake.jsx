@@ -145,8 +145,6 @@ const Snake = () => {
         y: y * MAP_SIZE_INFO.PIXEL_SIZE,
     }));
 
-    console.log({ yGrid, xGrid });
-
     const drawGrid = useCallback(() => {
         const svg = select(svgRef.current);
         const appendCommonGridAttrs = (svgRef) =>
