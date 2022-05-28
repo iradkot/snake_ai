@@ -23,8 +23,6 @@ const useFoodGeneratorHook = ({mapInfo, snakeArray, svgRef}) => {
             .attr('x', foodPosition.x)
             .attr('y', foodPosition.y)
             .style('z-index', 2);
-        // foodPosition
-        // setFoodPosition
     }, [foodPosition]);
 
     const generateNewFood = useCallback(() => {

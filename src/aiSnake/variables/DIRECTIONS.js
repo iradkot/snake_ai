@@ -4,6 +4,14 @@ export const leftDirectionVector = {x: -PIXEL_SIZE, y: 0};
 export const upDirectionVector = {x: 0, y: -PIXEL_SIZE};
 export const rightDirectionVector = {x: PIXEL_SIZE, y: 0};
 export const bottomDirectionVector = {x: 0, y: PIXEL_SIZE};
+
+export const getDirectionsArray = () => [
+    leftDirectionVector,
+    upDirectionVector,
+    rightDirectionVector,
+    bottomDirectionVector
+];
+
 const LEFT = 'left';
 const UP = 'up';
 const RIGHT = 'right';

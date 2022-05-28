@@ -6,10 +6,9 @@ import useFoodGeneratorHook from "./hooks/useFoodGeneratorHook";
 import useGameEngineHook from "./hooks/useGameEngineHook";
 import {handleSnakeMove} from "./utils/handleSnakeMove";
 import handleKeyPress from "./utils/handleKeyPress";
-import { Container, GameToolbar} from "./styles";
+import {Container, GameToolbar} from "./styles";
 import GameContext from "./contexts/gameContext";
 import useSnakeBrain from "./snakeBrain/useSnakeBrain";
-import useLocalStorage from "../hooks/useLocalStorage";
 import gameSettingsContext, {MAP_SIZE_INFO} from "./contexts/gameSettingsContext";
 import {startingDirectionVector, startingFoodVector, startingSnakeArray} from "./variables/gameStartData";
 
@@ -95,7 +94,11 @@ const Snake = () => {
             setSnakeMovesStack([]);
             setFoodPosition(startingFoodVector);
             generateNewFood();
-            alert(`Game Over! Your score is ${score}!`);
+            if (score > highScore) {
+                alert(`New high score: ${score}`);
+            } else {
+                alert(`Game Over! Your score is ${score}!`);
+            }
             // startGame();
         }, 100);
 
@@ -126,16 +129,80 @@ const Snake = () => {
 
     const drawCanvas = useCallback(() => {
         select(svgRef.current)
-            .attr('height', MAP_SIZE_INFO.MAP_HEIGHT)
-            .attr('width', MAP_SIZE_INFO.MAP_WIDTH)
+            .attr('height', MAP_SIZE_INFO.MAP_HEIGHT + MAP_SIZE_INFO.AXIS_BOX_SIZE)
+            .attr('width', MAP_SIZE_INFO.MAP_WIDTH + MAP_SIZE_INFO.AXIS_BOX_SIZE)
             .style('background', 'black')
-            .style('stroke', 'purple');
+            .style('stroke', 'white');
     }, [svgRef]);
+
+    const xGrid = [...Array(MAP_SIZE_INFO.MAP_WIDTH / MAP_SIZE_INFO.PIXEL_SIZE + 1).keys()].map(x => ({
+        x: x * MAP_SIZE_INFO.PIXEL_SIZE,
+        y: MAP_SIZE_INFO.MAP_HEIGHT
+    }));
+
+    const yGrid = [...Array(MAP_SIZE_INFO.MAP_HEIGHT / MAP_SIZE_INFO.PIXEL_SIZE + 1).keys()].map(y => ({
+        x: MAP_SIZE_INFO.MAP_WIDTH,
+        y: y * MAP_SIZE_INFO.PIXEL_SIZE,
+    }));
+
+    console.log({ yGrid, xGrid });
+
+    const drawGrid = useCallback(() => {
+        const svg = select(svgRef.current);
+        const appendCommonGridAttrs = (svgRef) =>
+            svgRef.attr('id', 'grid')
+                .attr('stroke-width', 1)
+                .attr('height', MAP_SIZE_INFO.PIXEL_SIZE)
+                .attr('width', MAP_SIZE_INFO.PIXEL_SIZE)
+                .style('stroke', 'white')
+                .style("color", "white")
+                .style('font-size', '14px')
+                .style("text-anchor", "middle")
+                .style("dominant-baseline", "central")
+                .style('font-family', 'monospace');
+
+        // const textXOffset = 0;
+        const textXOffset = MAP_SIZE_INFO.PIXEL_SIZE / 2;
+        const textYOffset = MAP_SIZE_INFO.PIXEL_SIZE / 2;
+        // const textYOffset = 0
+
+        yGrid.forEach(({x, y}) => {
+            appendCommonGridAttrs(svg.append('rect').attr('x', x).attr('y', y));
+            appendCommonGridAttrs(svg.append('text').attr('x', x + textXOffset).attr('y', y + textYOffset ).text(y));
+        });
+
+        xGrid.forEach(({x, y}) => {
+            appendCommonGridAttrs(svg.append('rect').attr('x', x).attr('y', y));
+            appendCommonGridAttrs(svg.append('text').attr('x', x + textXOffset).attr('y', y + textYOffset )).text(x);
+            // svg.append('rect')
+            //     .attr('id', 'grid')
+            //     .attr('height', MAP_SIZE_INFO.PIXEL_SIZE)
+            //     .attr('width', MAP_SIZE_INFO.PIXEL_SIZE)
+            //     .attr('x', x)
+            //     .attr('y', y)
+            //     .style('z-index', 20)
+            //     .style('stroke', 'red')
+            //     .style('z-index', 20)
+            //     .append("text")
+            //     .attr("x", x)
+            //     .attr("y", y)
+            //     .attr('height', MAP_SIZE_INFO.PIXEL_SIZE)
+            //     .attr('width', MAP_SIZE_INFO.PIXEL_SIZE)
+            //     .attr("dy", ".35em")
+            //     .style("text-anchor", "middle")
+            //     .style("color", "white")
+            //     .text(`${x}, ${y}`)
+            //     .style('z-index', 20);
+        })
+    }, [xGrid, svgRef]);
 
     const drawSnake = useCallback(() => {
         const svg = select(svgRef.current);
         svg
             .selectAll('rect')
+            .filter(function () {
+                return this.id !== 'grid'
+            })
             .data(snakeArray)
             .join(
                 (enter) =>
@@ -161,6 +228,7 @@ const Snake = () => {
     useEffect(() => {
         // new D3Chart(chartRef.current);
         drawCanvas();
+        drawGrid();
         drawSnake();
         drawFood();
     }, [svgRef]);

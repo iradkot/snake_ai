@@ -24,6 +24,7 @@
  * @property {number} PIXELS_IN_ROW
  * @property {number} MAP_WIDTH pixel size double the pixels in a row
  * @property {number} MAP_HEIGHT pixel size double the pixels in a row
+ * @property {number} AXIS_BOX_SIZE
  */
 
 /**

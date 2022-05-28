@@ -6,6 +6,9 @@ export const PIXELS_IN_ROW = 10;
 export const MAP_WIDTH = PIXEL_SIZE * PIXELS_IN_ROW;
 // noinspection JSSuspiciousNameCombination
 export const MAP_HEIGHT = MAP_WIDTH;
+
+export const AXIS_BOX_SIZE = PIXEL_SIZE;
+
 export const MAX_MOVES_STACK = 1; // maximum moves allowed to be saved, after that number any direction request will be ignored (so that we can press top right fast and it will save the right and wont ignore it)
 /**
  * MAP_SIZE_INFO
@@ -16,6 +19,7 @@ export const MAP_SIZE_INFO = {
     PIXELS_IN_ROW,
     MAP_WIDTH,
     MAP_HEIGHT,
+    AXIS_BOX_SIZE
 };
 
 const GameSettingsContext = createContext(undefined, undefined);
